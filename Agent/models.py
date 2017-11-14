@@ -3,28 +3,23 @@ from django.utils import timezone
 from django.contrib.auth.models import User  # Django Admin
 
 
+# class TodayManager(models.Manager):
+#     def get_queryset(self):
+#         return super(TodayManager,self).get_queryset().filter()
+
 # Create your models here.
 # 历史结果
 class History(models.Model):
-    # 状态选择 最近和历史
-    STATUS_CHresult='good'= (
-        ('recent', 'Recent'),
-        ('history', 'History')
-    )
-    # slug就是一个短标签，该标签只包含字母，数字，下划线或连接线。
-    # 我们将通过使用slug字段给我们的blog帖子构建漂亮的，友好的URLs。
-    # 我们给该字段添加了unique_for_date参数，
-    # 这样我们就可以使用 日期 和 帖子 的slug来为所有帖子构建URLs
-    Six_slug = models.SlugField(max_length=250, unique_for_date='Six_date')
-
     Six_number = models.CharField(max_length=100)  # 期数
     Six_date = models.DateTimeField()  # 日期
     Six_slave = models.CharField(max_length=30)  # 平码
     Six_master = models.CharField(max_length=10)  # 特码
     Six_oddSeve = models.CharField(max_length=10)  # 单双
     Six_bigSmall = models.CharField(max_length=10)  # 大小
-    Six_He_oddSeve = models.CharField(max_length=10)  # 合数单数
+    Six_He_oddSeve = models.CharField(max_length=10)  # 合数单双
     Six_He_bigSmall = models.CharField(max_length=10)  # 合数大小
+
+    # today=TodayManager()
 
     class Meta:
         ordering = ('-Six_date',)
@@ -32,10 +27,19 @@ class History(models.Model):
     def __str__(self):
         return self.Six_number
 
+    def get_absolute_url(self):
+        return reverse('agent:detail_day',
+                       args=[
+                           self.Six_date.year,
+                           self.Six_date.strftime("%m"),
+                           self.Six_date.strftime("%d"),
+                       ])
+
 
 class GoodManager(models.Manager):
     def get_queryset(self):
-        return super(PublishedManager,self).get_queryset().filter(result='good')
+        return super(PublishedManager, self).get_queryset().filter(result='good')
+
 
 # 个人预测
 class Forecast(models.Model):
@@ -72,7 +76,7 @@ class Forecast(models.Model):
     result = models.CharField(max_length=10,
                               choices=FORECAST_RESULT,
                               default='good')
-    good_result = GoodManager()
+    good_i = GoodManager()
 
     class Meta:
         ordering = ('-publish',)

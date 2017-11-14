@@ -1,0 +1,32 @@
+{% extends "agent/base.html" %}
+{% block title %} 历史开奖记录 {% endblock %}
+{% block content %}
+<table cellspacing="10px">
+    <caption>历史开奖记录</caption>
+    <tr>
+        <th>期数</th>
+        <th>日期</th>
+        <th>平码</th>
+        <th>特码</th>
+        <th>单双</th>
+        <th>大小</th>
+        <th>合数单双</th>
+        <th>合数大小</th>
+    </tr>
+    {% for history in historys_list %}
+    <tr align="center">
+        <td>{{ history.Six_number }}</td>
+        <td>{{ history.Six_date | date:"Y-m-d"}}</td>
+        <td>{{ history.Six_slave }}</td>
+        <td>{{ history.Six_master }}</td>
+        <td>{{ history.Six_oddSeve }}</td>
+        <td>{{ history.Six_bigSmall }}</td>
+        <td>{{ history.Six_He_oddSeve }}</td>
+        <td>{{ history.Six_He_bigSmall }}</td>
+    </tr>
+    {% empty %}
+    <p>客官,等待一会儿.</p>
+    {% endfor %}
+
+</table>
+{% endblock %}
